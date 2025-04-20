@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natija</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+        }
+        .wrapper {
+            max-width: 450px;
+            width: 90%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .next-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #800037;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .next-btn:hover {
+            background: #b30054;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #4f4f4f;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .back-btn:hover {
+            background: #6c6c6c;
+        }
+        @media (max-width: 480px) {
+            .wrapper {
+                padding: 30px;
+            }
+            .title {
+                font-size: 24px;
+            }
+            .message {
+                font-size: 16px;
+            }
+            .next-btn {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Test natijalari</h1>
+        <p>{{ message }}</p>
+        <p>Sizning natijangiz: {{ percentage }}%</p>
+        {% if stop_timer %}
+            <p>Test vaqti tugadi.</p>
+        {% endif %}
+        <a href="{% if request.user.profile.role == 'teacher' %}/teacherpage/{% else %}/studentpage/{% endif %}" class="next-btn">Ortga qaytish</a>
+    </div>
+</body>
+</html>

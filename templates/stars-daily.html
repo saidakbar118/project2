@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yulduzlar Reytingi</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        html, body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+            padding: 10px;
+        }
+        .wrapper {
+            width: 60%;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 23%;
+            background: linear-gradient(45deg, #660030, #800037, #b30054, #e6008e);
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 30px;
+            font-weight: 600;
+        }
+        .back-icon {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .content {
+            padding: 40px;
+            text-align: center;
+        }
+        .user-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .stars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .stars img {
+            width: 50px;
+            height: 50px;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #555;
+            font-weight: 500;
+        }
+    
+        /* Responsive dizayn */
+        @media (max-width: 1024px) {
+            .wrapper {
+                width: 80%;
+            }
+            .header {
+                font-size: 26px;
+                gap: 15%;
+            }
+            .stars img {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .wrapper {
+                width: 90%;
+            }
+            .header {
+                font-size: 22px;
+                gap: 10%;
+            }
+            .content {
+                padding: 30px;
+            }
+            .user-name {
+                font-size: 24px;
+            }
+            .stars img {
+                width: 40px;
+                height: 40px;
+            }
+            .message {
+                font-size: 20px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .wrapper {
+                width: 100%;
+            }
+            .header {
+                font-size: 20px;
+                gap: 5%;
+                padding: 12px;
+            }
+            .back-icon {
+                width: 35px;
+                height: 35px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .user-name {
+                font-size: 20px;
+            }
+            .stars {
+                gap: 10px;
+            }
+            .stars img {
+                width: 30px;
+                height: 30px;
+            }
+            .message {
+                font-size: 18px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="header" onclick="history.back()">
+            <img class="back-icon" src="/static/images/backicon3.png/" alt="Back">
+            Bugungi yulduzlar
+        </div>
+        <div class="content">
+            <div class="user-name">{{ request.user.profile.full_name }}</div>
+            <div class="stars">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Plain_Yellow_Star.png" alt="Star">
+                <span id="star-count">{{ today_stars }}</span>
+            </div>
+            <div class="message">
+                ⭐ Bir kunda qancha mehnat qilganingizni ko'ring va xarakatdan to'xtamang! 🚀
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

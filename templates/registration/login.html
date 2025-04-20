@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'style-auth.css' %}">
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Error Message (Frontend uchun) -->
+    <div class="error-message"></div>
+
+    <!-- Django Errorlarni chiqarish -->
+    {% if login_form.errors or register_form.errors %}
+      <div class="error-message show">
+        {% for field, errors in login_form.errors.items %}
+          {% for error in errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+        {% for field, errors in register_form.errors.items %}
+          {% for error in errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="title-text">
+      <div class="title login">Login</div>
+      <div class="title signup">Registratsiya</div>
+    </div>
+    
+    <div class="form-container">
+      <div class="slide-controls">
+        <input type="radio" name="slide" id="login" checked>
+        <input type="radio" name="slide" id="signup">
+        <label for="login" class="slide login">Login</label>
+        <label for="signup" class="slide signup">Registratsiya</label>
+        <div class="slider-tab"></div>
+      </div>
+
+      <div class="form-inner">
+        <!-- Login form -->
+        <form method="post" class="login">
+          {% csrf_token %}
+          <div class="field">
+            <input type="hidden" name="login">
+            {{ login_form.user_or_phone }}
+          </div>
+          <div class="field">
+            {{ login_form.password }}
+          </div>
+          <div class="pass-link"><a href="/send-code/">Parolni unutdingizmi?</a></div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Kirish">
+          </div>
+          <div class="signup-link">Hisobingiz yo'qmi? <a href="#">Hisob yaratish</a></div>
+        </form>
+
+        <!-- Registratsiya form -->
+        <form method="post" class="signup">
+          {% csrf_token %}
+          <div class="field">
+            <input type="hidden" name="register">
+            {{ register_form.username }}
+          </div>
+          <div class="field">
+            {{ register_form.password1 }}
+          </div>
+          <div class="field">
+            {{ register_form.password2 }}
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Davom etish">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

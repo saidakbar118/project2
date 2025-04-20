@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        html, body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+            overflow: hidden;
+        }
+        .wrapper {
+            position: relative;
+            max-width: 800px;
+            width: 90%;
+            height: 80vh;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .question {
+            font-size: 18px;
+            margin: 15px 0;
+            text-align: left;
+            font-weight: 600;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 20px;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #b30054;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            word-break: break-word;
+        }
+        .options label:hover {
+            background: #b30054;
+            color: white;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            cursor: pointer;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <img src="/static/images/backbutton4.png/" alt="Back" class="back-btn" onclick="history.back()">
+        <h2>Test</h2>
+        <form method="post">
+            {% csrf_token %}
+    
+            {% for field in form %}
+                <div class="question">{{ forloop.counter }}. {{ field.label }}</div>
+                <div class="options">
+                    {% for choice in field %}
+                        <label>{{ choice.tag }} {{ choice.choice_label }}</label><br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+    
+            <button type="submit" class="btn">Tekshirish</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фаоллик вақти диаграммаси</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            background: #9093a7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 10px;
+        }
+        .wrapper {
+            width: 25%;
+            height: 70%;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            padding: 15px 20px;
+            color: white;
+            position: relative;
+            justify-content: center;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 17px;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .back-button {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .back-button img {
+            width: 25px;
+            height: 25px;
+        }
+        #chart {
+            width: 90%;
+            height: 300px;
+            padding: 20px;
+        }
+    
+    
+        @media (max-width: 480px) {
+            .wrapper {
+                width: 90%;
+                height: 60%;
+            }
+            .header h2 {
+                font-size: 14px;
+            }
+            .back-button {
+                bottom: 8px;
+                left: 5px;
+            }
+            #chart {
+                height: 70%;
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <button class="back-button" onclick="history.back()">
+                <img src="{% static 'images/backicon3.png' %}" alt="Orqaga">
+            </button>
+            <h2>Fan bo'yicha faol talabalar</h2>
+        </div>
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        async function loadChart() {
+            const response = await fetch('/chart/data/');  // TO‘G‘RI URL
+            const data = await response.json();
+    
+            const chartData = [
+                {
+                    x: data.days,
+                    y: data.counts,
+                    type: "bar",
+                    marker: { color: ["#660030", "#800037", "#b30054", "#e6008e", "#9c0277", "#590020", "#c00063"] }
+                }
+            ];
+    
+            const layout = {
+                title: "Xaftalik Faollar",
+                xaxis: { title: "Xafta kunlari", showgrid: false },
+                yaxis: { title: "Faollar", showgrid: false },
+                plot_bgcolor: "#f9f9f9",
+                paper_bgcolor: "#fff",
+                font: { family: "Poppins, sans-serif" },
+                modebar: false
+            };
+    
+            Plotly.newPlot("chart", chartData, layout, { displayModeBar: false });
+        }
+    
+        loadChart();
+    </script>
+    
+    
+</body>
+</html>

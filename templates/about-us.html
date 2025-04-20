@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biz xaqimizda</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}"> <!-- Подключение стилей -->
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #bbbed5;
+      padding: 20px;
+      overflow: auto; /* Scroll qilish imkoniyati qo'shildi */
+    }
+
+    .wrapper {
+      max-width: 400px;
+      width: 100%;
+      padding: 60px 40px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      overflow-y: auto; /* Vertikal skroll qo'shildi */
+      max-height: 90vh; /* Oynaning balandligini oshirmaslik uchun */
+    }
+
+    .description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      display: inline-block;
+      height: 50px;
+      width: 100%;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .btn-layer {
+      height: 100%;
+      width: 300%;
+      position: absolute;
+      left: -100%;
+      background: -webkit-linear-gradient(
+        right,
+        #660030,
+        #800037,
+        #b30054,
+        #e6008e
+      );
+      border-radius: 15px;
+      transition: all 0.4s ease;
+    }
+
+    .btn:hover .btn-layer {
+      left: 0;
+    }
+
+    .btn span {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      position: relative;
+      display: inline-block;
+      background: none;
+      border: none;
+      color: #fff;
+      border-radius: 15px;
+      font-size: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      line-height: 50px;
+    }
+
+    .description {
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+  }
+  
+  .description p {
+      margin: 10px 0;
+      font-size: 16px;
+  }
+  
+  /* Matnni o‘zi qanday bo‘lsa, shunday joylashishi uchun */
+  .description p,
+  .description div,
+  .description span {
+      display: block;
+      text-align: inherit; /* Matnning o‘z formatini saqlash */
+  }
+  
+    /* ======= RESPONSIVE MEDIA QUERIES ======= */
+
+    /* Telefon ekranlari uchun (max-width: 480px) */
+    @media screen and (max-width: 480px) {
+      .wrapper {
+        max-width: 90%;
+        padding: 40px 20px;
+      }
+      .description {
+        font-size: 14px;
+      }
+      .btn span {
+        font-size: 18px;
+      }
+      .description {
+        font-size: 1px; /* Matnni kichikroq qilish */
+        line-height: 1.5; /* O‘qish uchun oraliq */
+        padding: 1px; /* Chegaralar qo‘shish */
+      }
+    }
+
+    /* Planshetlar uchun (max-width: 768px) */
+    @media screen and (max-width: 768px) {
+      .wrapper {
+        max-width: 80%;
+      }
+    }
+
+    /* Katta ekranlar uchun (min-width: 1024px) */
+    @media screen and (min-width: 1024px) {
+      .wrapper {
+        max-width: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <p class="description">
+      Bu <strong>Ichki yonuv dvigateli</strong> fani bo'yicha onlayn amaliy platforma <strong>Nano Soft</strong> kompaniyasi tomonidan ishga tushirildi. 
+    </p>
+    {% for i in text %}
+    <div class="description">
+      {{i.text|safe}}
+    </div>
+    {% endfor %}
+    <p class="description">
+      <strong>Nano Soft | Muhammadxonov Kamolxon | Ikromov Saidakbar</strong>
+    </p>
+    <a class="btn" onclick="history.back()">
+      <div class="btn-layer"></div>
+      <span>Ortga</span>
+    </a>
+  </div>
+</body>
+</html>

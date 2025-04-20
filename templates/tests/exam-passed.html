@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test allaqachon yakunlangan</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+            font-family: "Poppins", sans-serif;
+        }
+        .wrapper {
+            max-width: 450px;
+            width: 90%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #800037;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #b30054;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <p class="message">Siz testdan allaqachon o'tib bo'lgansiz. 😊</p>
+        <a href="{% if request.user.profile.role == 'teacher' %}/teacherpage/{% else %}/studentpage/{% endif %}" class="back-btn">Asosiy sahifaga qaytish</a>
+    </div>
+</body>
+</html>

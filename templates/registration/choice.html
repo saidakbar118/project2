@@ -1,0 +1,141 @@
+<!-- choice.html -->
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rol tanlash</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        html, body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            background: #9093a7;
+            padding: 20px;
+            text-align: center;
+        }
+        .mainwrapper {
+            width: 90%;
+            max-width: 450px;
+            font-size: 8px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+        }
+        .role-selection {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .role-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid lightgrey;
+            border-radius: 15px;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            word-wrap: break-word;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px;
+        }
+        .role-btn.active {
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: #fff;
+            border-color: transparent;
+        }
+        .continue-btn {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .continue-btn.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .continue-btn:active {
+            background: linear-gradient(to right, #800037, #b30054, #e6008e, #ff0099);
+        }
+        @media (max-width: 480px) {
+            .mainwrapper {
+                padding: 20px;
+            }
+            .role-selection {
+                flex-direction: column;
+            }
+            .role-btn {
+                font-size: 14px;
+                padding: 10px;
+                min-height: 45px;
+            }
+            .continue-btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="mainwrapper">
+        <h1>Kim ekanligingizni tanlang</h1>
+        
+        <div class="role-selection">
+            <button type="button" class="role-btn" id="teacher-btn" onclick="setRole('teacher')">O'qituvchi</button>
+            <button type="button" class="role-btn" id="student-btn" onclick="setRole('student')">Talaba</button>
+        </div>
+
+        <form id="roleForm" method="POST" action="{% url 'role_selection' %}">
+            {% csrf_token %}
+            <input type="hidden" name="role" id="roleInput">
+            <button type="submit" class="continue-btn" id="continue-btn" disabled>Davom etish</button>
+        </form>
+    </div>
+    
+    <script>
+        let selectedRole = null;
+        
+        function setRole(role) {
+            selectedRole = role;
+            document.getElementById("teacher-btn").classList.remove("active");
+            document.getElementById("student-btn").classList.remove("active");
+            document.getElementById(role + "-btn").classList.add("active");
+
+            // Yashirin inputga rolni yozish
+            document.getElementById("roleInput").value = role;
+
+            // Formani faollashtirish
+            document.getElementById("continue-btn").classList.add("active");
+            document.getElementById("continue-btn").disabled = false;
+        }
+    </script>
+</body>
+</html>

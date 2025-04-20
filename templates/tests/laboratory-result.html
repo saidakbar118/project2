@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natija</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+        }
+        .wrapper {
+            max-width: 450px;
+            width: 90%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .retry-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #800037;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .retry-btn:hover {
+            background: #b30054;
+        }
+
+        .next-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: #800037;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+        .next-btn:hover {
+            background: #b30054;
+        }
+        @media (max-width: 480px) {
+            .wrapper {
+                padding: 30px;
+            }
+            .title {
+                font-size: 24px;
+            }
+            .message {
+                font-size: 16px;
+            }
+            .retry-btn {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2 class="title">Sizning natijangiz: {{ percentage }}%</h2>
+        {% if passed %}
+            <p class="message">Tabriklaymiz! Siz testdan o'tdingiz! 🎉</p>
+            <p>Siz testdan <strong>{{ stars_earned }}</strong> ta yulduz oldingiz! ⭐</p>
+        {% else %}
+            <p class="message">Afsus, siz testdan o'ta olmadingiz. 😢</p>
+        {% endif %}
+        <a href="/objects/laboratory/" class="next-btn">Darslarga qaytish</a>
+        <a href="{% url 'test_for_laboratory' lesson.id %}" class="retry-btn">Yana bir bor urinish</a>
+    </div>
+</body>
+</html>

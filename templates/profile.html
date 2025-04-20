@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #bbbed5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            height: 95%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            padding: 15px 20px;
+            color: white;
+            position: relative;
+        }
+        .header h2 {
+            flex: 1;
+            text-align: center;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn-back {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        .btn-back img {
+            width: 30px;
+            height: 30px;
+        }
+        .content {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgb(251, 247, 247);
+            overflow-y: auto;
+        }
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-info {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .profile-info h2 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        .profile-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .menu li {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .menu li a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+            width: 100%;
+        }
+        .menu li img {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+        }
+        .menu li:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                height: 75%;
+            }
+            .header h2 {
+                font-size: 20px;
+            }
+            .profile-img {
+                width: 70px;
+                height: 70px;
+            }
+            .profile-info h2 {
+                font-size: 16px;
+            }
+            .profile-info p {
+                font-size: 13px;
+            }
+            .menu li {
+                padding: 10px;
+            }
+            .menu li img {
+                width: 20px;
+                height: 20px;
+            }
+            .btn-back {
+                bottom: 5px;
+            }
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 300px;
+        }
+        .stars {
+            font-size: 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .star {
+            color: gray;
+            transition: color 0.2s;
+        }
+        .star.active {
+            color: gold;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #b30054;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #800037;
+        }
+        @media (max-width: 480px) {
+            .popup {
+                width: 80%;
+                max-width: 250px;
+            }
+            .stars {
+                font-size: 24px;
+                gap: 5px;
+            }
+        }        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <button class="btn-back" onclick="history.back()">
+                {% for i in profile %}
+                <img src="{{ i.image1.url }}" alt="Orqaga">
+                {% endfor %}
+            </button>
+            <h2>Profil</h2>
+        </div>
+
+        <!-- Profil rasmi, ism va telefon -->
+        <div class="content">
+            {% for i in profile %}
+                {% if user.profile.profile_pic %}
+                    <img class="profile-img" src="{{ request.user.profile.profile_pic.url }}" alt="Profil rasmi">
+                {% else %}
+                    <img class="profile-img" src="/static/images/avatar.png" alt="Avatar">
+                {% endif %}
+            {% endfor %}
+            <div class="profile-info">
+                <h2>{{ request.user.profile.full_name }}</h2>
+                <p>{{ request.user.profile.phone_number }}</p>
+            </div>
+
+            <ul class="menu">
+                {% for i in profile %}
+                <li>
+                    <a href="{% if request.user.profile.role == 'teacher' %}/teacher_profile-fix/{% else %}/student_profile-fix/{% endif %}">
+                        <img src="{{ i.image3.url }}" alt="Редактировать">
+                        <span>Profilni tahrirlash</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/aboutus/">
+                        <img src="{{ i.image4.url }}" alt="Информация">
+                        <span>Biz haqimizda</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" id="shareButton">
+                        <img src="{{ i.image5.url }}" alt="Поделиться">
+                        <span>Ilovani baham ko'ring</span>
+                    </a>
+                </li>                
+                <li>
+                    <a href="javascript:void(0);" id="rateButton">
+                        <img src="{{ i.image6.url }}" alt="Оценить">
+                        <span>Ilovani baholash</span>
+                    </a>
+                </li>
+                <div id="ratingPopup" class="popup">
+                    <h3>Ilovani baholang:</h3>
+                    <div class="stars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <button id="submitRating">Baholash</button>
+                </div>                
+                <li>
+                    <a href="/media/">
+                        <img src="{{ i.image7.url }}" alt="Подписка">
+                        <span>Obuna bo‘ling</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/send-code/">
+                        <img src="{{ i.image9.url }}" alt="Пароль">
+                        <span>Parolni o‘zgartirish</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const shareButton = document.getElementById("shareButton");
+    
+        if (shareButton) {
+            shareButton.addEventListener("click", async () => {
+                const mainUrl = window.location.origin; // http://127.0.0.1:8000/entrance/
+    
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: document.title,
+                            text: "Mening ilovamni ko‘rib chiqing:",
+                            url: mainUrl
+                        });
+                    } catch (error) {
+                        console.error("Ulashish rad etildi:", error);
+                    }
+                } else {
+                    // Agar brauzer ulashishni qo‘llab-quvvatlamasa, linkni nusxalash
+                    navigator.clipboard.writeText(mainUrl).then(() => {
+                        alert("📋 Sayt havolasi nusxalandi! Uni istalgan joyga joylashtiring.");
+                    }).catch(err => {
+                        console.error("Nusxalashda xatolik:", err);
+                    });
+                }
+            });
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rateButton = document.getElementById("rateButton"); // Baholash tugmasi
+        const ratingPopup = document.getElementById("ratingPopup"); // Modal oyna
+        const stars = document.querySelectorAll(".star"); // Yulduzlar
+        const submitButton = document.getElementById("submitRating"); // Baholash tugmasi
+    
+        let selectedRating = 0;
+    
+        // Modal oynani ochish
+        rateButton.addEventListener("click", function () {
+            ratingPopup.style.display = "block";
+        });
+    
+        // Yulduzlar bosilganda rangi o'zgarishi
+        stars.forEach((star, index) => {
+            star.addEventListener("click", function () {
+                selectedRating = index + 1; // Nechta yulduz tanlandi
+                stars.forEach((s, i) => {
+                    s.classList.toggle("active", i < selectedRating);
+                });
+            });
+        });
+    
+        // Baholash tugmasi bosilganda oynani yopish
+        submitButton.addEventListener("click", function () {
+            if (selectedRating > 0) {
+                ratingPopup.style.display = "none"; // Modalni yopish
+            } else {
+                alert("Iltimos, yulduzlarni tanlang!");
+            }
+        });
+    });
+</script>    
+</html>

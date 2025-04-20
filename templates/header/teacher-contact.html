@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O‘qituvchilar bilan bog‘lanish</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #9093a7;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            height: 95%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            padding: 10px 20px;
+            color: white;
+        }
+        .header h2 {
+            font-size: 20px;
+        }
+        .btn-back {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .btn-back img {
+            width: 40px;
+            height: 40px;
+        }
+        .search-box {
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .student-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            text-align: center;
+        }
+        .student-card .info {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .contact-btn, .send-all-btn {
+            width: 100%;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            border: none;
+            padding: 10px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .contact-btn:hover, .send-all-btn:hover {
+            background: #b30054;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                height: 95%;
+                border-radius: 8;
+            }
+            .header h2 {
+                font-size: 18px;
+            }
+            .btn-back img {
+                width: 30px;
+                height: 30px;
+            }
+            .search-box {
+                font-size: 14px;
+            }
+            .contact-btn, .send-all-btn {
+                font-size: 14px;
+                padding: 8px 0;
+            }
+        }
+    </style>
+    <script>
+        let teachers = [];
+        
+        function goBack() {
+            history.back();
+        }
+    
+        function loadTeachers() {
+            fetch("/get_teachers/")
+                .then(response => response.json())
+                .then(data => {
+                    teachers = data.teachers;
+                    displayTeachers(teachers);
+                });
+        }
+    
+        function displayTeachers(teacherList) {
+            let contentDiv = document.querySelector(".content");
+            contentDiv.innerHTML = "";
+            if (teacherList.length === 0) {
+                contentDiv.innerHTML = "<p>Hozircha o‘qituvchilar ro‘yxati yo‘q.</p>";
+            } else {
+                teacherList.forEach(teacher => {
+                    let teacherDiv = document.createElement("div");
+                    teacherDiv.classList.add("teacher-card");
+                    teacherDiv.innerHTML = `
+                        <p class="info"><strong>${teacher.full_name}</strong></p>
+                        <p class="info">${teacher.phone_number ? teacher.phone_number : "N/A"}</p>
+                        <button class="contact-btn" onclick="sendMessage(${teacher.id})">SMS Yuborish</button>
+                    `;
+                    contentDiv.appendChild(teacherDiv);
+                });
+            }
+        }
+    
+        function sendMessage(receiverId) {
+            let text = prompt("Xabarni kiriting:");
+            if (text) {
+                fetch("/send_teacher_message/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"),
+                    },
+                    body: JSON.stringify({ receiver_id: receiverId, text: text }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                });
+            }
+        }
+    
+        function searchTeachers(query) {
+            let filtered = teachers.filter(teacher => 
+                teacher.full_name.toLowerCase().includes(query.toLowerCase())
+            );
+            displayTeachers(filtered);
+        }
+    
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        document.addEventListener("DOMContentLoaded", loadTeachers);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn-back" onclick="history.back()">
+                <img src="/static/images/backicon3.png" alt="Orqaga">
+            </button>
+            <h2>O‘qituvchilar bilan bog‘lanish</h2>
+        </div>
+        <input type="text" class="search-box" placeholder="O‘qituvchilarni qidirish..." onkeyup="searchTeachers(this.value)">
+        <div class="content">
+            <p>Yuklanmoqda...</p>
+        </div>
+    </div>
+</body>
+</html>

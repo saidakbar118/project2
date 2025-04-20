@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ichki Yonuv Dvigateli - Mustaqil Ta'lim</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #bbbed5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .main-container {
+            width: 90%;
+            max-width: 50%;
+            height: 95%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            padding: 15px;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .back-btn img {
+            height: 45px;
+            width: 45px;
+            margin-right: 10px;
+        }
+        .header h1 {
+            font-size: 22px;
+            text-align: right;
+            flex-grow: 1; /* O‘rta markazlash */
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .lecture-title {
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .video-placeholder {
+            background-color: #d7ccc8;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .video-placeholder img {
+            width: 80px;
+        }
+        .lecture-text {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .button {
+            text-align: center;
+        }
+        .button a {
+            display: inline-block;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    
+        /* 📱 Responsiv dizayn */
+        @media (max-width: 768px) {
+            .main-container {
+                max-width: 90%;
+                height: 90%;
+            }
+            .header {
+                padding: 10px;
+            }
+            .back-btn img {
+                height: 40px;
+                width: 40px;
+                margin-right: 8px;
+            }
+            .header h1 {
+                font-size: 20px;
+                text-align: right;
+                flex-grow: 1;
+            }
+            .lecture-title {
+                font-size: 16px;
+                padding: 8px;
+            }
+            .video-placeholder {
+                height: 180px;
+            }
+            .video-placeholder img {
+                width: 70px;
+            }
+            .lecture-text {
+                font-size: 14px;
+                padding: 15px;
+            }
+            .button a {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    
+        /* 📱 Juda kichik ekranlar */
+        @media (max-width: 480px) {
+            .main-container {
+                max-width: 95%;
+                height: 90%;
+            }
+            .header {
+                padding: 8px;
+            }
+            .back-btn img {
+                height: 35px;
+                width: 35px;
+                margin-right: 5px;
+            }
+            .header h1 {
+                font-size: 18px;
+                text-align: right;
+                flex-grow: 1;
+            }
+            .lecture-title {
+                font-size: 14px;
+                padding: 6px;
+            }
+            .video-placeholder {
+                height: 160px;
+            }
+            .video-placeholder img {
+                width: 60px;
+            }
+            .lecture-text {
+                font-size: 12px;
+                padding: 12px;
+            }
+            .button a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+    
+    
+</head>
+<body>
+
+<div class="main-container">
+    <div class="header">
+        <a class="back-btn" href="/objects/">
+            <img src="/static/images/backicon3.png" alt="Orqaga">
+        </a>
+        <h1>ICHKI YONUV DVIGATELI</h1>
+    </div>
+
+    <div class="content">
+        <div class="lecture-title">
+            Ichki Yonuv Dvigateli - Fan mashg'ulotlari - Mustaqil ta'lim
+        </div>
+        {% for i in selfstudy %}
+        <div class="lecture-text">
+            {{i.mustaqiltalim_matni}}
+        </div>
+        {% endfor %}
+        <div class="button">
+            <a href="#">Davom etish</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+    

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trio Konsoldatsiya</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #9093a7;
+            height: 100vh;
+        }
+        .container {
+            width: 40%;
+            height: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            padding: 10px 20px;
+            color: white;
+        }
+        .header h2 {
+            margin: 0 auto;
+            font-size: 25px;
+            text-align: center;
+        }
+        .btn-back {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 480px;
+        }
+        .btn-back img {
+            width: 40px;
+            height: 40px;
+        }
+        .content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(205, 203, 203);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .grid .full {
+            grid-column: span 2;
+            justify-self: center;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 300px;
+            height: 170px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .card img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        .card span {
+            font-size: 16px;
+            color: #333;
+        }
+    
+    
+        /* 📱 Mobil (kichik ekranlar) */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .card {
+                height: 140px;
+                max-width: 200px;
+            }
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .btn-back {
+                left: 30px;
+            }
+
+            .btn-back img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    
+        /* 📱 Juda kichik ekranlar */
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card {
+                height: 100px;
+                max-width: 150px;
+            }
+
+            .card img {
+                width: 30px;
+                height: 30px;
+            }
+
+
+            .card span {
+                font-size: 12px;
+            }
+
+            .btn-back img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+    
+    <script>
+        function navigateTo(option) {
+            window.location.href = option + "/";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn-back" onclick="history.back()">
+                {% for i in trio %}
+                <img src="{{i.image1.url}}" alt="Orqaga">
+                {% endfor %}
+            </button>
+            <h2>Trio Konsoldatsiya</h2>
+        </div>
+        <div class="content">
+            <div class="grid">
+                {% for i in trio %}
+                <div class="card" onclick="navigateTo('option1')">
+                    <img src="{{i.image2.url}}" alt="Option 1">
+                    <span>Simulatsiya</span>
+                </div>
+                <div class="card" onclick="navigateTo('test')">
+                    <img src="{{i.image3.url}}" alt="Option 2">
+                    <span>Nazorat testlar</span>
+                </div>
+                <div class="card full" onclick="navigateTo('suniy')">
+                    <img src="{{i.image4.url}}" alt="Option 3">
+                    <span>Sun'iy intelekt</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

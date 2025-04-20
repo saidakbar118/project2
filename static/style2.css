@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+html, body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 50%;
+    background: #9093a7;
+}
+
+.mainwrapper, .wrapper {
+    width: 30%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.role-selection {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.role-btn {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: 2px solid lightgrey;
+    border-radius: 15px;
+    background: #fff;
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.role-btn:hover {
+    background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+    color: #fff;
+    border-color: transparent;
+}
+
+button {
+    height: 50px;
+    width: 100%;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+}
+
+button:hover {
+    background: linear-gradient(to right, #800037, #b30054, #e6008e, #ff0099);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #800037;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: url('https://img.icons8.com/ios-filled/50/ffffff/left.png') no-repeat center center;
+    background-size: 70%;
+    background-color: #800037;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #b30054;
+}

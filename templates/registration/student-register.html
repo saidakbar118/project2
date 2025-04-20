@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talaba ma'lumotlari</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: #9093a7;
+            padding: 20px;
+        }
+        .wrapper {
+            width: 90%;
+            max-width: 400px;
+            height: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            background: url('https://img.icons8.com/ios-filled/50/ffffff/left.png') no-repeat center center;
+            background-size: 70%;
+            background-color: #800037;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #b30054;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid lightgray;
+            font-size: 14px;
+            transition: border 0.3s ease;
+        }
+        input:focus {
+            border: 2px solid #800037;
+            outline: none;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 15px;
+        }
+        .button:hover {
+            background: linear-gradient(to right, #800037, #b30054, #e6008e, #ff0099);
+        }
+
+        /* Адаптация под мобильные устройства */
+        @media (max-width: 600px) {
+            .wrapper {
+                padding: 10px;
+                height: auto;
+                max-width: 350px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+            .back-btn {
+                width: 22px;
+                height: 22px;
+                left: 5px;
+            }
+            label {
+                font-size: 10px;
+            }
+            input {
+                font-size: 10px;
+                padding: 6px;
+            }
+            .button {
+                padding: 8px;
+                font-size: 12px;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <button class="back-btn" onclick="history.back()"></button>
+        <h1>Talaba ma'lumotlari</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label>F. I. SH:</label>
+            {{ form.full_name }}
+            
+            <label>Qaysi Oliy ta'lim muassasa talabasiz:</label>
+            {{ form.university }}
+            
+            <label>Fakultet nomi:</label>
+            {{ form.faculty }}
+            
+            <label>Yo'nalish nomi:</label>
+            {{ form.specialization }}
+            
+            <label>Qaysi guruh talabasiz:</label>
+            {{ form.grade }}
+            
+            <label>Telefon raqam:</label>
+            {{ form.phone_number }}
+            
+            <button class="button" type="submit">Jo'natish</button>
+        </form>
+        {{ form.errors }}
+    </div>
+</body>
+</html>

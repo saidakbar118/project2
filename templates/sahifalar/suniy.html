@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Xizmatlar</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #9093a7;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            padding: 10px 20px;
+            color: white;
+        }
+        .header h2 {
+            font-size: 24px;
+        }
+        .btn-back {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .btn-back img {
+            width: 40px;
+            height: 40px;
+        }
+        .content {
+            flex: 1;
+            background-color: rgb(205, 203, 203);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .ai-link {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        .ai-link:hover {
+            transform: scale(1.05);
+        }
+        .ai-link img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function goBack() {
+            history.back();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn-back" onclick="goBack()">
+                <img src="/static/images/backicon3.png" alt="Orqaga">
+            </button>
+            <h2>AI Xizmatlar</h2>
+        </div>
+        <div class="content">
+            <a href="https://chat.openai.com/" target="_blank" class="ai-link">
+                <img src="/static/image/chatgpt.png" alt="ChatGPT"> ChatGPT
+            </a>
+            <a href="https://deepseek.com/" target="_blank" class="ai-link">
+                <img src="/static/image/deepseek.png" alt="DeepSeek"> DeepSeek
+            </a>
+            <a href="https://claude.ai/" target="_blank" class="ai-link">
+                <img src="/static/image/claude.png" alt="Claude AI"> Claude AI
+            </a>
+        </div>
+    </div>
+</body>
+</html>

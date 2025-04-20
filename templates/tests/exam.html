@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        html, body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #9093a7;
+            overflow: hidden;
+        }
+        .wrapper {
+            position: relative;
+            max-width: 800px;
+            width: 90%;
+            height: 90vh;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            counter-reset: question; /* Bu yerda counter_reset qo'shilgan */
+        }
+        
+        .question {
+            font-size: 18px;
+            margin: 15px 0;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .question:before {
+            content: counter(question) ". "; /* Har bir savol uchun raqam qo'shish */
+            counter-increment: question; /* Har bir savolni raqamlaydi */
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        #exam-timer {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #b30054;
+            font-weight: bold;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 20px;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #b30054;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            word-break: break-word;
+        }
+        .options label:hover {
+            background: #b30054;
+            color: white;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            cursor: pointer;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 763px) {
+            .question {
+                font-size: 15px;
+            }
+
+            .options label {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <img src="/static/images/backbutton4.png/" alt="Back" class="back-btn" onclick="history.back()">
+        <h2>Test</h2>
+        
+        <div id="exam-timer">Qolgan vaqt: 40 daqiqa</div>
+
+        <form id="exam-form" method="post" style="display: none;">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="question">{{ question.question }}</div>
+                <div class="options">
+                    <label><input type="radio" name="question_{{ question.id }}" value="a"> {{ question.a_option }}</label>
+                    <label><input type="radio" name="question_{{ question.id }}" value="b"> {{ question.b_option }}</label>
+                    <label><input type="radio" name="question_{{ question.id }}" value="c"> {{ question.c_option }}</label>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn">Testni yakunlash</button>
+        </form>
+
+        <!-- Testni boshlash tugmasi -->
+        <button id="start-btn" class="btn" onclick="startExam()">Testni boshlash</button>
+    </div>
+
+    <script>
+        let endTime;
+        let timerElement = document.getElementById("exam-timer");
+        let startButton = document.getElementById("start-btn");
+
+        function startExam() {
+            // Taymerni boshlash uchun start_time va end_timeni hisoblash
+            endTime = new Date().getTime() + 40 * 60 * 1000;  // 40 daqiqa (40*60*1000)
+
+            // Testni ko‘rsatish va boshlash
+            document.getElementById("exam-form").style.display = "block";
+            startButton.style.display = "none"; // Testni boshlash tugmasini yashirish
+
+            updateTimer(); // Taymerni yangilash
+        }
+
+        function updateTimer() {
+            let now = new Date().getTime();
+            let timeLeft = endTime - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById("exam-form").submit(); // Vaqt tugadi, testni yuborish
+                return;
+            }
+
+            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            timerElement.innerText = "Qolgan vaqt: " + minutes + " daqiqa " + seconds + " soniya";
+
+            setTimeout(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>

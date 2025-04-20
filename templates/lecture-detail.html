@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ichki Yonuv Dvigateli - Ma'ruza</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #bbbed5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .main-container {
+            width: 90%;
+            max-width: 50%;
+            height: 95%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            padding: 15px;
+        }
+        .back-btn {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .back-btn img {
+            height: 45px;
+            width: 45px;
+            margin-right: 10px;
+        }
+        .header h1 {
+            font-size: 22px;
+            text-align: right;
+            flex-grow: 1;
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .lecture-title {
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .video-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .responsive-video {
+            width: 100%;
+            max-width: 730px;
+            height: 300px;
+            border-radius: 5px;
+        }
+        .lecture-text {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            text-align: justify; /* Matnni bir chiziqda tugashini ta'minlash */
+        }
+        .button {
+            text-align: center;
+        }
+        .button a {
+            display: inline-block;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .lecture-text p {
+            margin: 5px 0; /* Ikki qator tashlashni oldini olish */
+            font-size: 16px;
+        }
+
+        /* Matnni formatlash uchun */
+        .lecture-text p,
+        .lecture-text div,
+        .lecture-text span {
+            display: block;
+            text-align: inherit;
+        }
+
+        .lecture-text img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block;
+        }                       
+
+        @media (max-width: 768px) {
+            .main-container {
+                max-width: 90%;
+                height: 90%;
+            }
+            .responsive-video {
+                max-width: 90%;
+            }
+        }
+        .lecture-text {
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                max-width: 95%;
+                height: 90%;
+            }
+            .responsive-video {
+                max-width: 100%;
+            }
+            .lecture-text {
+                font-size: 14px;
+                line-height: 1.5;
+                padding: 10px;
+            }
+
+            .lecture-text img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 10px auto;
+            }
+
+            .lecture-container {
+                padding: 10px;
+            }
+        }        
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="header">
+        <a class="back-btn" onclick="history.back()">
+            <img src="/static/images/backicon3.png" alt="Orqaga">
+        </a>
+        <h1>ICHKI YONUV DVIGATELI</h1>
+    </div>
+
+    <div class="content">
+        <div class="lecture-title">
+            Ichki Yonuv Dvigateli - Fan mashg'ulotlari - Ma'ruza - {{lecturedet.maruza_raqam}}
+        </div>
+        
+        <div class="video-container">
+            <video class="responsive-video" controls>
+                <source src="{{ lecturedet.maruza_video.url }}">
+            </video>
+        </div>
+        
+        <div class="lecture-text">
+            {{lecturedet.maruza_matni|safe}}
+        </div>
+        
+        <div class="button">
+            <a href="{% url 'test_for_lecture' lecturedet.id %}">Testdan o'tish</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    CKEDITOR.replace('editor1', {
+        enterMode: CKEDITOR.ENTER_BR,  // Enter bosilganda <br> ishlatiladi
+        shiftEnterMode: CKEDITOR.ENTER_P,  // Shift+Enter bosilganda <p> ishlatiladi
+        autoParagraph: false, // Avtomatik <p> yaratishni o‘chiradi
+        extraAllowedContent: 'img[!src,alt,width,height];',
+        removePlugins: 'elementspath',
+        forcePasteAsPlainText: true,
+        pasteFilter: "plain-text"
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let lectureText = document.querySelector(".lecture-text");
+        if (lectureText) {
+            lectureText.innerHTML = lectureText.innerHTML
+                .replace(/<\/p>\s*<p>/g, "<br><br>") // P teglari o‘rniga bitta qator tashlash
+                .replace(/<p>/g, "") // Ochuvchi <p> ni olib tashlaymiz
+                .replace(/<\/p>/g, "<br>"); // Yopuvchi </p> ni bitta <br> bilan almashtiramiz
+        }
+    });
+</script>
+
+</body>
+</html>

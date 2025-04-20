@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #bbbed5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: white;
+            padding: 10px 20px;
+            width: 50%;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .header-left img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .icon-container img {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .icon-container span {
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .icon-container:hover {
+            color: #d4eaff;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 5px;
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 10px;
+        }
+
+        .icon-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 50%;
+            height: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stats .block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+            background-color: #f1f2f5;
+            width: 30%;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .stats .block img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .menu .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 22%;
+            height: 140px;
+            margin: 10px 0;
+            padding: 8px;
+            margin-bottom: 40px;
+            background-color: #f1f2f5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .menu .card:hover {
+            background-color: white;
+            transform: scale(1.05);
+        }
+
+        .menu .card img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+
+        .menu .card span {
+            font-size: 14px;
+        }
+
+        .chart-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            background: #b30054;
+            padding: 15px;
+            border-radius: 80px;
+            margin-bottom: 40px;
+            margin-top: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .chart-section:hover {
+            background-color: #e6008e;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            font-size: 10px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }  
+
+        @media screen and (max-width: 765px) {
+            .header, .container {
+                width: 85%;
+                max-width: 350px;
+            }
+
+            .header {
+                font-size: 10px;
+            }
+
+    
+            .header-left img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .header-right span {
+                font-size: 7px;
+            }
+        
+            .icon-container img {
+                width: 20px;
+                height: 20px;
+            }
+        
+            .stats {
+                flex-direction: row;
+                align-items: center;
+            }
+        
+            .stats .block {
+                width: 25%;
+                height: 90px;
+                font-size: 10px;
+            }
+
+            .stats .block img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu .card img {
+                width: 30px;
+                height: 30px;
+            }
+        
+            .menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .menu .card span {
+                font-size: 12px;
+            }
+
+            .menu .card {
+                width: 40%;
+                height: 120px;
+                padding: 10px;
+            }
+        }
+        
+        @media screen and (min-width: 768px) {
+            .header, .container {
+                width: 90%;
+                max-width: 750px;
+            }
+
+    
+            .header-left img {
+                width: 60px;
+                height: 60px;
+            }
+        
+            .icon-container img {
+                width: 40px;
+                height: 40px;
+            }
+        
+            .stats {
+                flex-direction: row;
+                align-items: center;
+            }
+        
+            .stats .block {
+                width: 25%;
+                height: 120px;
+                font-size: 15px;
+            }
+
+            .stats .block img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .menu .card img {
+                width: 50px;
+                height: 50px;
+            }
+        
+            .menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .menu .card span {
+                font-size: 15px;
+            }
+
+            .menu .card {
+                width: 40%;
+                height: 150px;
+                padding: 10px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        {% for i in student %}
+        <a href="/profile/" class="header-left">
+            {% if user.profile.profile_pic %}
+                <img src="{{ request.user.profile.profile_pic.url }}" alt="Avatar">
+            {% else %}
+                <img src="/static/images/avatar.png" alt="Avatar">
+            {% endif %}    
+            <span>{{ request.user.profile.full_name }}</span>
+        </a>
+        {% endfor %}
+        <div class="header-right">
+            {% for i in student  %}
+            <a href="/teachercontact/" class="icon-container">
+                <img src="{{i.image2.url}}" alt="Student">
+                <span>O'qituvchi</span>
+                <div class="tooltip">O'qituvchi bilan bog'lanish</div>
+            </a>
+            <a href="/admincontact/" class="icon-container">
+                <img src="{{i.image3.url}}" alt="Admin">
+                <span>Admin</span>
+                <div class="tooltip">Admin bilan bog'lanish</div>
+            </a>
+            <a href="/notifications/" class="icon-container">
+                <img src="{{i.image4.url}}" alt="Notifications">
+                <span>Bildirginomalar</span>
+                <div class="tooltip">Barcha bildirginomalar</div>
+                <span id="notif-badge" class="notif-badge" style="display: none;"></span>
+            </a> 
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="stats">
+            {% for i in student %}
+            <a href="/stars/" class="block">
+                <img style="width: 85px; height: 85px;" src="{{i.image5.url}}" alt="Avatar">
+            </a>
+            <a href="/activity/" class="block">
+                <img src="{{i.image7.url}}" alt="Yulduzlar">
+                <p>Faollik vaqti</p>
+            </a>
+            <a href="/starsdaily/" class="block">
+                <img src="{{i.image6.url}}" alt="Yulduz">
+                <p>Bugungi yulduz</p>
+            </a>
+            {% endfor %}
+        </div>
+
+        <a href="/chart/" class="chart-section">
+            Fan bo'yicha faol talabalar
+        </a>
+
+        <div class="menu">
+            {% for i in student %}
+            <a href="/objects/" class="card">
+                <img src="{{i.image9.url}}" alt="Fan mashg'ulotlar">
+                <span>Fan mashg'ulotlar</span>
+            </a>
+            <a href="/triostudent/" class="card">
+                <img src="{{i.image10.url}}" alt="Trio">
+                <span>Trio Consolidatsiya</span>
+            </a>
+            <a href="/student/" class="card">
+                <img src="{{i.image8.url}}" alt="Asosiy sahifa">
+                <span>Sinf xona</span>
+            </a>
+            <a href="/trio/suniy/" class="card">
+                <img src="{{i.image11.url}}" alt="QR-kod">
+                <span>Sun'iy intelekt</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function checkNotifications() {
+            fetch("/get_unread_notifications/")
+                .then(response => response.json())
+                .then(data => {
+                    const notifBadge = document.getElementById("notif-badge");
+                    if (data.unread_count > 0) {
+                        notifBadge.style.display = "flex";
+                        notifBadge.textContent = data.unread_count;  // Nechta yangi xabar borligini ko‘rsatish
+                    } else {
+                        notifBadge.style.display = "none";
+                    }
+                })
+                .catch(error => console.error("Xatolik:", error));
+        }
+        
+        // Har 5 soniyada yangi xabar borligini tekshirish
+        setInterval(checkNotifications, 5000);
+        
+        // Sahifa yuklanganida tekshirish
+        checkNotifications();
+        document.addEventListener("DOMContentLoaded", function () {
+            const notifIcon = document.querySelector(".icon-container[href='/notifications/']");
+        
+            if (notifIcon) {
+                notifIcon.addEventListener("click", function () {
+                    fetch("/mark_notification_as_read/", { method: "POST" })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                document.getElementById("notif-badge").style.display = "none";
+                            }
+                        })
+                        .catch(error => console.error("Xatolik:", error));
+                });
+            }
+        });                
+    </script>
+</body>
+</html>

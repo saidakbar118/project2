@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rol tanlash</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        html, body, form {
+            display: grid;
+            height: 100%;
+            width: 100%;
+            place-items: center;
+            background: #9093a7;
+        }
+
+        .mainwrapper{
+            width: 30%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .wrapper {
+            width: 40%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        .hidden {
+            display: none;
+        }
+        .form-container label {
+            display: block;
+            text-align: left;
+        }
+        .role-selection {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .role-btn {
+            flex: 1;
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: 2px solid lightgrey;
+            border-radius: 15px;
+            background: #fff;
+            color: #000;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .role-btn.selected {
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            color: #fff;
+            border-color: transparent;
+        }
+        .btn {
+            height: 50px;
+            width: 100%;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn .btn-layer {
+            height: 100%;
+            width: 300%;
+            position: absolute;
+            left: -100%;
+            background: linear-gradient(to right, #660030, #800037, #b30054, #e6008e);
+            border-radius: 15px;
+            transition: all 0.4s ease;
+        }
+        .btn:hover .btn-layer {
+            left: 0;
+        }
+        button, .btn button {
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            position: relative;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid lightgrey;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+        .form-container input:focus {
+            border-color: #800037;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: url('https://img.icons8.com/ios-filled/50/ffffff/left.png') no-repeat center center;
+            background-size: 70%;
+            background-color: #800037;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #b30054;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <div class="mainwrapper" id="role-selection">
+            <h1>Kim ekanligingizni tanlang</h1>
+            <div class="role-selection">
+                <div class="role-btn" id="teacher-btn" onclick="selectRole('teacher')">O'qituvchi</div>
+                <div class="role-btn" id="student-btn" onclick="selectRole('student')">Talaba</div>
+            </div>      
+            <div class="btn">
+                <div class="btn-layer"></div>
+                <button type="button" onclick="showForm(event)">Davom etish</button>
+            </div>
+        </div>
+
+        <div class="wrapper hidden" id="teacher-form">
+            <button class="back-btn" onclick="refreshPage()"></button>
+            <h1>O'qituvchi ma'lumotlari</h1>
+            <div class="form-container">
+                <label for="name">F. I. SH:</label>
+                <input type="text" placeholder="Ism, Familiya va Sharif">
+                <label for="ish">Qaysi Oliy ta'lim muassasa xodimisiz: </label>
+                <input type="text" placeholder="Ish joyi">
+                <label for="fakultet">Fakultet nomi: </label>
+                <input type="text" placeholder="Fakultet">
+                <label for="kafedra">Kafedra nomi: </label>
+                <input type="text" placeholder="Kafedra">
+                <label for="tel">Telefon raqam: </label>
+                <input type="text" placeholder="+998-00-000-00-00">
+                <div class="btn">
+                    <div class="btn-layer"></div>
+                    <button>Jo'natish</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper hidden" id="student-form">
+            <button class="back-btn" onclick="refreshPage()"></button>
+            <h1>Talaba ma'lumotlari</h1>
+            <div class="form-container">
+                <label for="ism">F. I. SH: </label>
+                <input type="text" placeholder="Ism, Familiya va Sharif">
+                <label for="univer">Qaysi Oliy ta'lim muassasa talabasisiz: </label>
+                <input type="text" placeholder="O'qish joyi">
+                <label for="fakultet">Fakultet nomi: </label>
+                <input type="text" placeholder="Fakultet">
+                <label for="yo'nalish">Yo'nalish nomi: </label>
+                <input type="text" placeholder="Yo'nalish">
+                <label for="guruh">Qaysi guruh talabasisiz</label>
+                <input type="text" placeholder="Guruh">
+                <label for="tel">Telefon raqam: </label>
+                <input type="text" placeholder="+998-00-000-00-00">
+                <div class="btn">
+                    <div class="btn-layer"></div>
+                    <button>Jo'natish</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        let selectedRole = null;
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('teacher-btn').classList.remove('selected');
+            document.getElementById('student-btn').classList.remove('selected');
+            if (role === 'teacher') {
+                document.getElementById('teacher-btn').classList.add('selected');
+            } else {
+                document.getElementById('student-btn').classList.add('selected');
+            }
+        }
+
+        function showForm(event) {
+            event.preventDefault(); // Form yuborilishining oldini oladi
+            if (!selectedRole) {
+                alert("Iltimos, avval o'z rolini tanlang.");
+                return;
+            }
+        
+            document.getElementById('role-selection').classList.add('hidden');
+            if (selectedRole === 'teacher') {
+                document.getElementById('teacher-form').classList.remove('hidden');
+            } else if (selectedRole === 'student') {
+                document.getElementById('student-form').classList.remove('hidden');
+            }
+        }
+        
+    </script>
+</body>
+</html>

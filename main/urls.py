@@ -59,7 +59,10 @@ urlpatterns = [
     path("student/", student_page, name="student_page"),
     path("end_stream/<int:lesson_id>/", end_stream, name="end_stream"),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('bilim/exam/',start_exam, name="start_exam"),
+    path("trio/create-test/", create_exam_test, name="create_exam_test"),
+    path('delete-test/<str:exam_id>/', delete_exam_test, name='delete_exam_test'),
+    path('bilim/exam/', exam_list, name='exam_list'),
+    path("exam/<int:exam_id>/", start_exam, name="start_exam")
 ]
 
 if settings.DEBUG:  # Faqat local server uchun

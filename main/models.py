@@ -234,27 +234,43 @@ class about_us_model(models.Model):
 
 from django.utils import timezone  
   
-class ExamTest(models.Model):
+class Exam(models.Model):
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+class ExamQuestion(models.Model):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions')
     question = models.TextField()
     a_option = models.CharField(max_length=200)
     b_option = models.CharField(max_length=200)
     c_option = models.CharField(max_length=200)
-    correct_answer = models.CharField(max_length=1, choices=[('a', 'A'), ('b', 'B'), ('c', 'C')])
+    correct_answer = models.CharField(max_length=1, choices=[
+        ('a', 'A'),
+        ('b', 'B'),
+        ('c', 'C')
+    ])
+
 
 class UserExamAttempt(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    attempt_count = models.IntegerField(default=0)
-    passed = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)  # ✅ SHU YANGI QATOR
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    attempt_count = models.IntegerField(default=0)
+    passed = models.BooleanField(default=False)
+
+    def is_time_over(self):
+        if self.end_time:
+            return timezone.now() > self.end_time
+        return True
 
     def start_exam(self):
         self.start_time = timezone.now()
-        self.end_time = self.start_time + timedelta(minutes=40)  # Taymerni 40 daqiqa qilib sozlash
+        self.end_time = self.start_time + timezone.timedelta(minutes=20)
         self.save()
-
-    def is_time_over(self):
-        return timezone.now() > self.end_time  # Vaqt o‘tgandan keyin testni yopish
 
 
 

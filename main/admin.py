@@ -23,7 +23,8 @@ admin.site.register(StarsHistory)
 admin.site.register(Admin_Contact)
 admin.site.register(Lesson)
 admin.site.register(about_us_model)
-admin.site.register(ExamTest)
+admin.site.register(Exam)
+admin.site.register(ExamQuestion)
 admin.site.register(UserExamAttempt)
 
 

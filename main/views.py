@@ -909,82 +909,115 @@ def end_stream(request, lesson_id):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
-from .models import UserExamAttempt, ExamTest
+
 
 @login_required
-def start_exam(request):
-    # Foydalanuvchining testga bo'lgan harakatlarini olish yoki yaratish
-    user_attempt, created = UserExamAttempt.objects.get_or_create(user=request.user)
+def exam_list(request):
+    exams = Exam.objects.all()
+    return render(request, 'tests/exam_list.html', {'exams': exams})
 
-    # Agar foydalanuvchi allaqachon testni o'tgan bo'lsa
+
+@login_required
+def start_exam(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    user = request.user
+
+    # Foydalanuvchi uchun test urinishini olish yoki yaratish
+    user_attempt, created = UserExamAttempt.objects.get_or_create(user=user, exam=exam)
+
     if user_attempt.passed:
         return render(request, "tests/exam-passed.html")
 
-    # Agar foydalanuvchi ikki marta sinab ko'rgan bo'lsa, testni bloklash
     if user_attempt.attempt_count >= 2:
         return render(request, "tests/exam-blocked.html")
 
-    # Agar test boshlanmagan yoki vaqt tugagan bo'lsa, testni boshlash
     if user_attempt.start_time is None or user_attempt.is_time_over():
         user_attempt.start_exam()
 
-    # Test savollarini olish
-    questions = ExamTest.objects.all()
+    questions = ExamQuestion.objects.filter(exam=exam)
 
-    # Agar so'rov POST bo'lsa, testni baholash
     if request.method == "POST":
         correct_answers = 0
         total_questions = questions.count()
 
-        # Foydalanuvchi javoblarini tekshirish
         for question in questions:
             user_answer = request.POST.get(f'question_{question.id}')
             if user_answer == question.correct_answer:
                 correct_answers += 1
 
-        # To'g'ri javoblar foizini hisoblash
         percentage = (correct_answers / total_questions) * 100 if total_questions > 0 else 0
-        passed = percentage >= 55  # Testdan o‘tish uchun 55% to'g'ri javob kerak
+        passed = percentage >= 55
 
-        # Agar foydalanuvchi testni o'tgan bo'lsa
-        if passed:
-            user_attempt.passed = True
-            user_attempt.save()
-            return render(request, "tests/exam-result.html", {
-                "passed": passed,
-                "percentage": percentage,
-                "message": "Tabriklaymiz! Siz testdan o‘tdingiz! 🎉",
-                "stop_timer": True
-            })
-
-        # Agar foydalanuvchi testni o'ta olmagan bo'lsa
         user_attempt.attempt_count += 1
+        user_attempt.passed = passed or user_attempt.passed  # bir marta topsa bo'ldi
         user_attempt.save()
 
-        # Ikkinchi urinishdan keyin testni bloklash
-        if user_attempt.attempt_count == 2:
-            return render(request, "tests/exam-result.html", {
-                "passed": passed, 
-                "percentage": percentage,
-                "message": "Afsuski, siz testdan o‘ta olmadingiz. Endi sizda test topshirish imkoniyati yo‘q.",
-                "stop_timer": True
-            })
+        message = (
+            "Tabriklaymiz! Siz testdan o'tdingiz!🎉"
+            if passed else (
+                "Afsuskiv o'ta olmadingiz. Testni qayta topshirish imkoniyatingiz qolmadi."
+                if user_attempt.attempt_count >= 2 else
+                "Siz testdan o'ta olmadingiz. Qayta urinib ko'ring."
+            )
+        )
 
-        # Testni qayta topshirishga ruxsat berish
         return render(request, "tests/exam-result.html", {
-            "passed": passed, 
-            "percentage": percentage,
-            "message": "Afsuski, siz testdan o‘ta olmadingiz. Yana bir bor urinib ko‘rishingiz mumkin.",
+            "passed": passed,
+            "percentage": round(percentage, 2),
+            "message": message,
             "stop_timer": True
         })
 
-    # Testni boshlash uchun sahifani render qilish
     return render(request, "tests/exam.html", {
-        "questions": questions, 
+        "exam": exam,
+        "questions": questions,
         "user_attempt": user_attempt,
-        "end_time": user_attempt.end_time.timestamp() if not user_attempt.passed else None
+        "end_time": user_attempt.end_time.timestamp() if user_attempt.end_time else None
+    })
+    
+    
+@login_required
+def create_exam_test(request):
+    teacher = request.user
+    exams = Exam.objects.filter(teacher=teacher).annotate(num_questions=Count('questions'))
+
+    if request.method == "POST":
+        test_title = request.POST.get("test_name")
+        exam = Exam.objects.create(teacher=teacher, title=test_title)
+
+        index = 1
+        while True:
+            question = request.POST.get(f"question_{index}")
+            if not question:
+                break
+
+            a_option = request.POST.get(f"a_option_{index}")
+            b_option = request.POST.get(f"b_option_{index}")
+            c_option = request.POST.get(f"c_option_{index}")
+            correct_answer = request.POST.get(f"correct_answer_{index}")
+
+            ExamQuestion.objects.create(
+                exam=exam,
+                question=question,
+                a_option=a_option,
+                b_option=b_option,
+                c_option=c_option,
+                correct_answer=correct_answer
+            )
+            index += 1
+
+        return redirect('create_exam_test')
+
+    return render(request, "tests/teacher_exam-test.html", {
+        "exams": exams
     })
 
+@login_required
+def delete_exam_test(request, exam_id):
+    exam = Exam.objects.filter(id=exam_id, teacher=request.user).first()
+    if exam:
+        exam.delete()
+    return redirect('create_exam_test')
 
 
 

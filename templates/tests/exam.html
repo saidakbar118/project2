@@ -117,7 +117,6 @@
     <div class="wrapper">
         <img src="/static/images/backbutton4.png/" alt="Back" class="back-btn" onclick="history.back()">
         <h2>Test</h2>
-        
         <div id="exam-timer">Qolgan vaqt: 40 daqiqa</div>
 
         <form id="exam-form" method="post" style="display: none;">
@@ -133,41 +132,36 @@
             <button type="submit" class="btn">Testni yakunlash</button>
         </form>
 
-        <!-- Testni boshlash tugmasi -->
         <button id="start-btn" class="btn" onclick="startExam()">Testni boshlash</button>
+        </form>
+
     </div>
 
     <script>
         let endTime;
         let timerElement = document.getElementById("exam-timer");
         let startButton = document.getElementById("start-btn");
-
+    
         function startExam() {
-            // Taymerni boshlash uchun start_time va end_timeni hisoblash
-            endTime = new Date().getTime() + 40 * 60 * 1000;  // 40 daqiqa (40*60*1000)
-
-            // Testni ko‘rsatish va boshlash
+            endTime = new Date().getTime() + 40 * 60 * 1000;
             document.getElementById("exam-form").style.display = "block";
-            startButton.style.display = "none"; // Testni boshlash tugmasini yashirish
-
-            updateTimer(); // Taymerni yangilash
+            startButton.style.display = "none";
+            updateTimer();
         }
-
+    
         function updateTimer() {
             let now = new Date().getTime();
             let timeLeft = endTime - now;
-
+    
             if (timeLeft <= 0) {
-                document.getElementById("exam-form").submit(); // Vaqt tugadi, testni yuborish
-                return;
+                document.getElementById("exam-form").submit();
+            } else {
+                let minutes = Math.floor(timeLeft / 1000 / 60);
+                let seconds = Math.floor((timeLeft / 1000) % 60);
+                timerElement.textContent = `Qolgan vaqt: ${minutes} daqiqa ${seconds} soniya`;
+                setTimeout(updateTimer, 1000);
             }
-
-            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            timerElement.innerText = "Qolgan vaqt: " + minutes + " daqiqa " + seconds + " soniya";
-
-            setTimeout(updateTimer, 1000);
         }
-    </script>
+    </script>    
 </body>
 </html>

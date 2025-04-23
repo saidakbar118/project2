@@ -167,11 +167,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <button class="btn-back" onclick="history.back()">
+            <a class="btn-back" href="/teacherpage/">
                 {% for i in trio %}
                 <img src="{{i.image1.url}}" alt="Orqaga">
                 {% endfor %}
-            </button>
+            </a>
             <h2>Trio Konsoldatsiya</h2>
         </div>
         <div class="content">
@@ -181,7 +181,7 @@
                     <img src="{{i.image2.url}}" alt="Option 1">
                     <span>Simulatsiya</span>
                 </div>
-                <div class="card" onclick="navigateTo('test')">
+                <div class="card" onclick="navigateTo('create-test')">
                     <img src="{{i.image3.url}}" alt="Option 2">
                     <span>Nazorat testlar</span>
                 </div>

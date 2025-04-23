@@ -141,17 +141,11 @@
 </head>
 <body>
   <div class="wrapper">
-    <p class="description">
-      Bu <strong>Ichki yonuv dvigateli</strong> fani bo'yicha onlayn amaliy platforma <strong>Nano Soft</strong> kompaniyasi tomonidan ishga tushirildi. 
-    </p>
     {% for i in text %}
     <div class="description">
       {{i.text|safe}}
     </div>
     {% endfor %}
-    <p class="description">
-      <strong>Nano Soft | Muhammadxonov Kamolxon | Ikromov Saidakbar</strong>
-    </p>
     <a class="btn" onclick="history.back()">
       <div class="btn-layer"></div>
       <span>Ortga</span>

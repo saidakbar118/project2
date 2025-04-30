@@ -11,7 +11,7 @@ urlpatterns = [
     path('send-code/', request_password_reset_view, name='send-code'),
     path('verify-code/', verify_code_view, name='verify-code'),
     path('reset-password/', reset_password_view, name='reset-password'),
-    path('entrance/',Entrance),
+    path('',Entrance),
     path('success/',Success),
     path('teacherpage/',TeacherPage),
     path('studentpage/',StudentPage),
